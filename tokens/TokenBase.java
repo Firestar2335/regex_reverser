@@ -1,9 +1,15 @@
 package tokens;
+import java.util.*;
 
 /**
  * Base class for tokens.
  */
 public abstract class TokenBase {
+	/** Set of anchors and word boundaries */
+	public static final Set<String> ANCHORS = Set.of("^","$","\\b","\\B","\\y","\\Y","\\m","\\M",
+													 "\\<","\\>","\\b{wb}","\\B{wb}","[[:<:]]","[[:>:]]",
+													 "\\A","\\G","\\z","\\Z","\\`","\\'");
+
 	private static final String LIST_ERR_MSG = "Token does not support indexing";
 	public static final boolean DEBUG = false;
 
@@ -28,6 +34,7 @@ public abstract class TokenBase {
 	 * @param index the index to get
 	 * @return The item at {@code index}
 	 * @throws UnsupportedOperationException if the class does not support list operations
+	 * @throws IndexOutOfBoundsException if {@code index} is out of the bounds of {@code this}
 	 */
 	public TokenBase get(int index) {
 		throw new UnsupportedOperationException(LIST_ERR_MSG);
@@ -38,6 +45,7 @@ public abstract class TokenBase {
 	 * @param index The index to set
 	 * @param item The item to set at {@code index}
 	 * @throws UnsupportedOperationException if the class does not support list operations
+	 * @throws IndexOutOfBoundsException if {@code index} is out of the bounds of {@code this}
 	 */
 	public void set(int index, TokenBase item) {
 		throw new UnsupportedOperationException(LIST_ERR_MSG);
@@ -94,7 +102,43 @@ public abstract class TokenBase {
 	public void replace(TokenBase newTokens) {
 		throw new UnsupportedOperationException();
 	}
+
+	/**
+	 * Replaces the contents of the token recursively indexed into {@code this} by {@code indices}
+	 * @param newTokens The tokens to replace the contents of the specified item with
+	 * @param indices the recursive indices into {@code this}
+	 * @throws UnsupportedOperationException if any of the items in the chain do not support 
+	 * indexing or if the final item does not support replacement
+	 * @throw IndexOutOfBoundsException if an index is out of the bounds of the corresponding list
+	 */
+	public void replaceIter(TokenBase newTokens, List<Integer> indices) {
+		if (indices.size() == 0) {
+			replace(newTokens);
+		}
+		else {
+			get(indices.get(0)).replaceIter(newTokens, indices.subList(1,indices.size()));
+		}
+	}
+
+	/**
+	 * Returns a copy of this with the first token replaced
+	 * @param newFirst the new first token
+	 */
+	public TokenBase withFirst(TokenBase newFirst) {
+		throw new UnsupportedOperationException();
+	}
 	
+
+	/* *
+	 * Returns an indicator of what type of list this token is. The values are
+	 *   * 0: Not a list
+	 *   * 1: Alternation - elements of the list are meant to be interpreted seperately.
+	 *   * 2: TokenList - elements are meant to be interpreted together
+	 * @return the specified value.
+	 */
+	//public int listType() {
+	//	return 0;
+	//}
 
 	/**
 	 * Returns an indicator of what type of list this token is. The values are
@@ -103,7 +147,7 @@ public abstract class TokenBase {
 	 *   * 2: TokenList - elements are meant to be interpreted together
 	 * @return the specified value.
 	 */
-	public int listType() {
-		return 0;
+	public ListType listType() {
+		return ListType.NOTLIST;
 	}
 }

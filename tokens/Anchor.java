@@ -10,13 +10,21 @@ public class Anchor extends Token {
 
 	@Override
 	public Anchor reverse() {
-		if (this.token.equals("^")) {
-			return new Anchor("$");
+		switch (this.token) {
+			case "^": return new Anchor("$");
+			case "$": return new Anchor("^");
+			case "\\A": return new Anchor("\\Z");
+			case "\\Z": return new Anchor("\\A");
+			case "\\`": return new Anchor("\\'");
+			case "\\'": return new Anchor("\\`");
+			case "\\m": return new Anchor("\\M");
+			case "\\M": return new Anchor("\\m");
+			case "\\<": return new Anchor("\\>");
+			case "\\>": return new Anchor("\\<");
+			case "[[:<:]]": return new Anchor("[[:>:]]");
+			case "[[:>:]]": return new Anchor("[[:<:]]");
+			default: return this;
 		}
-		if (this.token.equals("$")) {
-			return new Anchor("^");
-		}
-		return this;
 	}
 
 	public String toString() {

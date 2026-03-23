@@ -38,7 +38,7 @@ public class Alternation extends TokenBase {
 
 	public TokenBase getLastToken() {
 		TokenBase t = get(size()-1);
-		if (t.listType() == 0) {
+		if (t.listType() == ListType.NOTLIST) {
 			return t;
 		}
 		return t.getLastToken();
@@ -46,7 +46,7 @@ public class Alternation extends TokenBase {
 
 	public void setLastToken(TokenBase item) {
 		TokenBase t = get(size()-1);
-		if (t.listType() == 0) {
+		if (t.listType() == ListType.NOTLIST) {
 			set(size()-1, item);
 		}
 		else {
@@ -60,7 +60,7 @@ public class Alternation extends TokenBase {
 
 	public void append(TokenBase item) {
 		TokenBase t = alts.getLast();
-		if (t.listType() == 0) {
+		if (t.listType() == ListType.NOTLIST) {
 			List<TokenBase> r = new ArrayList<>();
 			r.add(t);
 			r.add(item);
@@ -71,8 +71,12 @@ public class Alternation extends TokenBase {
 		}
 	}
 
-	public int listType() {
-		return 1;
+	//public int listType() {
+	//	return 1;
+	//}
+
+	public ListType listType() {
+		return ListType.ALTERNATION;
 	}
 
 	/**

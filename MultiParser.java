@@ -133,10 +133,11 @@ public class MultiParser implements Parser {
 	 * @param info The info specifying the group to update
 	 */
 	private static void updateGroup(TokenBase root, TokenBase replacement, Group info) {
-		for (int index : info.indices) {
-			root = root.get(index);
-		}
-		root.replace(replacement);
+		root.replaceIter(replacement, info.indices);
+		//for (int index : info.indices) {
+		//	root = root.get(index);
+		//}
+		//root.replace(replacement);
 	}
 
 	/* *
@@ -222,8 +223,8 @@ public class MultiParser implements Parser {
 					int j = Parser.findMatch(str,i,stop,'(',')',true);
 					TokenBase k = tokens;
 					List<Integer> ind = new ArrayList<>();
-					while (k.listType() != 0) {
-						if (k.listType() == 1) {
+					while (k.listType() != ListType.NOTLIST) {
+						if (k.listType() == ListType.ALTERNATION) {
 							ind.add(k.size()-1);
 						}
 						else {

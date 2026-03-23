@@ -52,7 +52,7 @@ public class TokenList extends TokenBase {
 
 	public TokenBase getLastToken() {
 		TokenBase t = tokens.getLast();
-		if (t.listType() == 0) {
+		if (t.listType() == ListType.NOTLIST) {
 			return t;
 		}
 		return t.getLastToken();
@@ -60,7 +60,7 @@ public class TokenList extends TokenBase {
 
 	public void setLastToken(TokenBase item) {
 		TokenBase t = tokens.getLast();
-		if (t.listType() == 0) {
+		if (t.listType() == ListType.NOTLIST) {
 			tokens.set(size()-1, item);
 		}
 		else {
@@ -68,8 +68,12 @@ public class TokenList extends TokenBase {
 		}
 	}
 
-	public int listType() {
-		return 2;
+	//public int listType() {
+	//	return 2;
+	//}
+
+	public ListType listType() {
+		return ListType.LIST;
 	}
 
 	public String toString() {
@@ -77,5 +81,11 @@ public class TokenList extends TokenBase {
 			return tokens.toString();
 		}
 		return super.toString();
+	}
+
+	public TokenList withFirst(TokenBase newFirst) {
+		List<TokenBase> result = new ArrayList<>(tokens);
+		result.set(0,newFirst);
+		return new TokenList(result);
 	}
 }

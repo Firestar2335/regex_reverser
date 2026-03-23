@@ -4,7 +4,7 @@ import tokens.*;
 //import java.util.*;
 import java.time.*;
 import java.time.format.*;
-
+@SuppressWarnings("unused")
 public class Client {
 	private static final int CORE_COUNT = 24;
 	public static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MM'/'dd'/'yyyy HH':'mm':'ss");
