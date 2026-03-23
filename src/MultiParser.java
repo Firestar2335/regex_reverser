@@ -40,6 +40,11 @@ public class MultiParser implements Parser {
 		this.makeDaemonic = makeDaemonic;
 	}
 
+	/**
+	 * Runs the multithreaded parsing algorithm with a single thread
+	 * @param str
+	 * @return
+	 */
 	public TokenBase parseSingle(String str) {
 		MultiResult first = multiParse(str, 0, str.length());
 		Queue<Group> tasks = new LinkedList<>(first.groups);
@@ -216,7 +221,7 @@ public class MultiParser implements Parser {
 		while (i < stop) {
 			switch (str.charAt(i)) {
 				case '\\':
-					tokens.append(new Token(str.substring(i, i+2)));
+					tokens.append(Token.create(str.substring(i, i+2)));
 					i++;
 					break;
 				case '(':
@@ -252,7 +257,7 @@ public class MultiParser implements Parser {
 					break;
 				case '[':
 					j = Parser.findMatch(str, i, str.length(), '[',']', true);
-					tokens.append(new CharacterClass(str.substring(i+1,j)));
+					tokens.append(CharacterClass.create(str.substring(i+1,j)));
 					i = j;
 					break;
 				case '{':
@@ -270,7 +275,7 @@ public class MultiParser implements Parser {
 					tokens.append(new Anchor(str.substring(i,i+1)));
 					break;
 				default:
-					tokens.append(new Token(str.substring(i,i+1)));
+					tokens.append(Token.create(str.substring(i,i+1)));
 					break;
 			}
 			i++;
