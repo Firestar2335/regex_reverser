@@ -5,6 +5,7 @@ import java.util.*;
  * A class for representing sequences of individual tokens.
  */
 public class TokenList extends TokenBase {
+
 	private List<TokenBase> tokens;
 
 	/**
@@ -76,16 +77,25 @@ public class TokenList extends TokenBase {
 		return ListType.LIST;
 	}
 
-	public String toString() {
+	public String  toString() {
 		if (DEBUG) {
 			return tokens.toString();
 		}
 		return super.toString();
 	}
 
+	public void a() {}
+
 	public TokenList withFirst(TokenBase newFirst) {
 		List<TokenBase> result = new ArrayList<>(tokens);
 		result.set(0,newFirst);
 		return new TokenList(result);
+	}
+
+	public TokenList reverseMulti() {
+		if (tokens.size() <= BATCH_SIZE) {
+			return reverse();
+		}
+		return new TokenList(new ReverseWorker(tokens.spliterator()).invoke());
 	}
 }

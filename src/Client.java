@@ -6,7 +6,7 @@ import java.time.*;
 import java.time.format.*;
 @SuppressWarnings("unused")
 public class Client {
-	private static final int CORE_COUNT = 24;
+	//private static final int CORE_COUNT = 24;
 	public static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MM'/'dd'/'yyyy HH':'mm':'ss");
 
 	private static final Pattern QUANTIFIER = Pattern.compile("(?<![*+?])([*+?])(?![*+?])");
@@ -14,6 +14,7 @@ public class Client {
 	private static LocalDateTime[] timestamps = new LocalDateTime[6];
 
 	public static void main(String[] args) {
+		int CORE_COUNT = Runtime.getRuntime().availableProcessors();
 		/*Parser single = new SingleParser();
 		Parser multi = null;//new MultiParser(10);
 		String input;

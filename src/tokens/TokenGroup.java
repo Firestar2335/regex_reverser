@@ -28,49 +28,42 @@ public class TokenGroup extends TokenBase {
 	}
 
 	public TokenGroup reverse() {
-		String newMod;
+		return new TokenGroup(reverseMod(mod), token.reverse());
+	}
+
+	public TokenGroup reverseMulti() {
+		return new TokenGroup(reverseMod(mod), token.reverseMulti());
+	}
+
+	private static String reverseMod(String mod) {
 		switch (mod) {
 			case "?="://Positive lookahead -> positive lookbehind
-				newMod = "?<=";
-				break;
+				return "?<=";
 			case "*pla:":
-				newMod = "*plb:";
-				break;
+				return "*plb:";
 			case "*positive_lookahead:":
-				newMod = "*positive_lookbehind:";
-				break;
+				return "*positive_lookbehind:";
 			case "?!"://Negative lookahead -> negative lookbehind
-				newMod = "?<!";
-				break;
+				return "?<!";
 			case "*nla:":
-				newMod = "*nlb:";
-				break;
+				return "*nlb:";
 			case "*negative_lookahead:":
-				newMod = "*negative_lookbehind:";
-				break;
+				return "*negative_lookbehind:";
 			case "?<="://Positive lookbehind -> positive lookahead
-				newMod = "?=";
-				break;
+				return "?=";
 			case "*plb:":
-				newMod = "*pla:";
-				break;
+				return "*pla:";
 			case "*positive_lookbehind:":
-				newMod = "*positive_lookahead:";
-				break;
+				return "*positive_lookahead:";
 			case "?<!"://Negative lookbehind -> negative lookahead
-				newMod = "?!";
-				break;
+				return "?!";
 			case "*nlb:":
-				newMod = "*nla:";
-				break;
+				return "*nla:";
 			case "*negative_lookbehind:":
-				newMod = "*negative_lookahead";
-				break;
+				return "*negative_lookahead";
 			default:
-				newMod = mod;
-				break;
+				return mod;
 		}
-		return new TokenGroup(newMod, token.reverse());
 	}
 
 	public String compile() {

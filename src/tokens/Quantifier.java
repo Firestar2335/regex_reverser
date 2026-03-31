@@ -9,7 +9,11 @@ public class Quantifier extends TokenBase {
 	}
 
 	public Quantifier reverse() {
-		return this;
+		return new Quantifier(token.reverse(), quant);
+	}
+
+	public Quantifier reverseMulti() {
+		return new Quantifier(token.reverseMulti(), quant);
 	}
 
 	public String compile() {
@@ -35,9 +39,9 @@ public class Quantifier extends TokenBase {
 	/**
 	 * Returns a copy of old with the specified quantifier attached. If old is already a quantifier,
 	 * a copy is returned with the extra quantifier appended
-	 * @param old
-	 * @param extra
-	 * @return
+	 * @param old The token to add the quantifier to
+	 * @param extra The quantifier to attach to the token
+	 * @return The token with {@code extra} appended
 	 */
 	public static Quantifier addQuantifier(TokenBase old, String extra) {
 		if (old instanceof Quantifier) {

@@ -98,4 +98,11 @@ public class Alternation extends TokenBase {
 		}
 		return super.toString();
 	}
+
+	public Alternation reverseMulti() {
+		if (alts.size() < BATCH_SIZE) {
+			return reverse();
+		}
+		return new Alternation(new ReverseWorker(alts.spliterator()).invoke().reversed());
+	}
 }

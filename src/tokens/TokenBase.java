@@ -1,10 +1,14 @@
 package tokens;
+
 import java.util.*;
 
 /**
  * Base class for tokens.
  */
 public abstract class TokenBase {
+	/** The number of tokens to split lists into when executing in parallel. Currently {@value}. */
+	public static final long BATCH_SIZE = 4l;
+
 	/** Set of anchors and word boundaries */
 	public static final Set<String> ANCHORS = Set.of("^","$","\\b","\\B","\\y","\\Y","\\m","\\M",
 													 "\\<","\\>","\\b{wb}","\\B{wb}","[[:<:]]","[[:>:]]",
@@ -18,6 +22,14 @@ public abstract class TokenBase {
 	 * @return a reversed version of {@code this}
 	 */
 	public abstract TokenBase reverse();
+
+	/**
+	 * Reverses this token using multiple threads.
+	 * @return A reversed version of {@code this}
+	 */
+	public TokenBase reverseMulti() {
+		return reverse();
+	}
 
 	/**
 	 * Returns a {@code String} of the RegEx represented by this token
@@ -150,4 +162,16 @@ public abstract class TokenBase {
 	public ListType listType() {
 		return ListType.NOTLIST;
 	}
+
+	/*protected class ReverseTask extends RecursiveTask<TokenBase> {
+		private final TokenBase token;
+
+		public ReverseTask(TokenBase token) {
+			this.token = token;
+		}
+
+		protected TokenBase compute() {
+			return
+		}
+	}*/
 }
