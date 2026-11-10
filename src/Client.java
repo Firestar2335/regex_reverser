@@ -28,7 +28,6 @@ public class Client {
 			input = s.nextLine();
 		}
 		s.close();*/
-		//args = new String[]{"C:\\Users\\thoma\\Desktop\\test.txt","C:\\Users\\thoma\\Desktop\\testRev.txt"};
 		if (args.length < 2) {
 			System.out.println("regex_reverser.jar inFile outFile [numThreads [makeLazy]]");
 			System.out.println("\t-inFile - The path to the file to read regex from");
